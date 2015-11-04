@@ -92,7 +92,7 @@ By default we will use **gcc** C++ compiler. So install **cmake** and **boost** 
 
 ## Binaries 
 
-Just a **C++11** project, based on **boost** libraries for code and **unit tests**. It's build using **cmake** utility so you can check out binaries with:
+Just a **C++11** project, based on **boost** libraries for code and **unit tests**. It's built using **cmake** utility so you can check out binaries with:
 
        cd logs-grammar/build
        src/logs-grammar
