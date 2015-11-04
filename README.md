@@ -42,7 +42,7 @@ end note
 
 In the very beginning, the focus will be on **Linux** platforms for **gcc** and **OSX** for **clang**. Later on **Solaris** will be tackle, including *fake* **cross-compilation** for mixing *Solaris* and *gcc* binaries.
 
-![Solaris installation](images/fake-cross-compilation)
+![Solaris installation](images/fake-cross-compilation.png)
 <!--
 @startuml fake-cross-compilation.png
 top to bottom direction
