@@ -2,9 +2,59 @@
 
 Use grammar to parse logs instead of dark regular expression magic.
 
+![Grammar](images/grammar.png)
+<!-- java -jar /opt/plantuml/plantuml.jar README.md -o images -->
+<!--
+@startuml grammar.png
+top to bottom direction
+skinparam packageStyle rect
+actor "Different experts\non several features" as E 
+rectangle "Grammar" {
+E -left-> (Business\nLogic) : Knownledge\non client's systems 
+(Business\nLogic) .> (Grammar\nRules)  
+}
+note top of (Business\nLogic)
+    Knownledge on
+expected log entries
+end note
+note top of (Grammar\nRules)
+       Written in a way that
+let us resuse them several times
+end note
+rectangle "Software\nUnder\nTest" as SUT {
+(Raw\nLogs)
+}
+actor "Logs\nAnalytics" as LA
+rectangle "Tools" {
+(Raw\nLogs)  -down-> (Binary) : complex\nlogs
+(Grammar\nRules) -> (Library) : automatic\nbuild
+(Library) .> (Binary) 
+(Binary) -down-> LA : simpler\nlogs
+}
+note bottom of (Library)
+ Choose at real-time
+what libraries to use
+end note
+@enduml
+-->
+
 ## Install
 
 In the very beginning, the focus will be on **Linux** platforms for **gcc** and **OSX** for **clang**. Later on **Solaris** will be tackle, including *fake* **cross-compilation** for mixing *Solaris* and *gcc* binaries.
+
+![Solaris installation](images/fake-cross-compilaion)
+<!--
+@startuml fake-cross-compilation.png
+top to bottom direction
+rectangle "Solaris\non esteroids"  {
+(C++11\nlibraries) as C11L 
+}
+rectangle "Client-like\nSolaris" {
+(Production\nlibraries) as PL
+}
+C11L .> PL : STATIC\nCompiled\nBINARIES
+@enduml
+-->
 
 Related to **IDE**'s, **Netbeans** will be tested on **Linux** (local) and **Solaris** (remote). On **OSX** **Xcode** will be used instead.
 
