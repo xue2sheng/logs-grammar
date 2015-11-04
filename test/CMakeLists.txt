@@ -1,0 +1,8 @@
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wno-unused-local-typedefs -g")
+file(GLOB MARKDOWN *.md)
+file(GLOB SRC *.cpp *.hpp)
+find_package( Boost REQUIRED COMPONENTS unit_test_framework )
+include_directories( ${Boost_INCLUDE_DIRS} )
+add_executable(unitTest ${SRC} ${MARKDOWN})
+target_link_libraries(unitTest ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} )
+add_test(testMain unitTest)

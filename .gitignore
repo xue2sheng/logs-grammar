@@ -1,3 +1,11 @@
+# Specific files
+~*
+*.swp
+build/
+bin/
+.DS_Store
+nbproject/
+
 # Compiled Object files
 *.slo
 *.lo
