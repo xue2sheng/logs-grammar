@@ -46,13 +46,13 @@ In the very beginning, the focus will be on **Linux** platforms for **gcc** and 
 <!--
 @startuml fake-cross-compilation.png
 top to bottom direction
-rectangle "Solaris\non esteroids"  {
+rectangle "Solaris\non steroids"  {
 (C++11\nlibraries) as C11L 
 }
 rectangle "Client-like\nSolaris" {
 (Production\nlibraries) as PL
 }
-C11L .> PL : STATIC\nCompiled\nBINARIES
+C11L .> PL : STATICALLY\nCompiled\nBINARIES
 @enduml
 -->
 
