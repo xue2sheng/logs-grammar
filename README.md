@@ -66,7 +66,7 @@ If there is time left, **Windows** might be tested as well once its planned **cl
 
 ### OSX
 
-By default we will use **clang** C++ compiler. So install **cmake** and **boost** libraries in a way suits better your taste, i.e. **brew**, for that compiler. Then the usual *cmake* commands:
+By default we will use **clang** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. **brew**, for that compiler. Then the usual *cmake* commands:
 
        cd logs-grammar
        mkdir build
@@ -80,7 +80,7 @@ By default we will use **clang** C++ compiler. So install **cmake** and **boost*
 
 ### Linux
 
-By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits better your distro, i.e. **apt-get** or **yum**, for that compiler. Then the usual *cmake* commands:
+By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. **apt-get** or **yum**, for that compiler. Then the usual *cmake* commands:
 
        cd logs-grammar
        mkdir build
@@ -89,6 +89,18 @@ By default we will use **gcc** C++ compiler. So install **cmake** and **boost** 
        make
 
 **NOTE**: if you happen to work with **NetBeans** as **IDE**, remember import the code as a **cmake** project.
+
+### Solaris
+
+By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. [OpenCSW](https://www.opencsw.org) **pkgutil** against *unstable* mirror, for that compiler. Then the following commands:
+
+       cd logs-grammar
+       mkdir build
+       cd build
+       CC=/opt/csw/bin/gcc CXX=/opt/csw/bin/g++ BOOST_INCLUDEDIR=/opt/csw/gxx/include /opt/csw/bin/cmake .. 
+       /opt/csw/bin/make
+
+**NOTE**: Don't forget to hint, i.e. export LD_LIBRARY_PATH=/opt/csw/lib, where to find **gcc** C++11 compiler libraries instead default ones. Later on, we tackle that issue with *statically* built binaries.
 
 ## Execute program & unit tests 
 

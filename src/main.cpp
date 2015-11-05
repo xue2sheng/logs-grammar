@@ -58,8 +58,8 @@ int main(int argc, char** argv)
         
         // load basic library
         std::string plugin = plugin_path + DIR_SEP + LIB_PRE + plugin_name + LIB_EXT;
-        void* basic = dlopen(plugin.c_str(), RTLD_LAZY);
-        if (!basic) {
+        void* library = dlopen(plugin.c_str(), RTLD_LAZY);
+        if (!library) {
             std::cerr << "Cannot load library: " << dlerror() << '\n';
             return ERROR_DYNAMIC_LIBRARY;
         }
@@ -68,14 +68,14 @@ int main(int argc, char** argv)
         dlerror();
         
         // load the symbols
-        create_t* create_plugin = (create_t*) dlsym(basic, "create");
+        create_t* create_plugin = (create_t*) dlsym(library, "create");
         const char* dlsym_error = dlerror();
         if (dlsym_error) {
             std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
             return ERROR_DYNAMIC_LIBRARY;
         }
         
-        destroy_t* destroy_plugin = (destroy_t*) dlsym(basic, "destroy");
+        destroy_t* destroy_plugin = (destroy_t*) dlsym(library, "destroy");
         dlsym_error = dlerror();
         if (dlsym_error) {
             std::cerr << "Cannot load symbol destroy: " << dlsym_error << '\n';
@@ -83,16 +83,16 @@ int main(int argc, char** argv)
         }
         
         // create an instance of the class
- //       basic* instance = create_plugin();
+        basic* instance = create_plugin();
         
         // use the class
-   //     std::cout << "The id is: " << instance->id() << '\n';
+        std::cout << "The id is: " << instance->id() << '\n';
         
         // destroy the class
-    //    destroy_plugin(instance);
+        destroy_plugin(instance);
         
         // unload the triangle library
-     //   dlclose(instance);
+        dlclose(instance);
     }
     catch(std::exception& e)
     {
