@@ -1,6 +1,7 @@
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wno-unused-local-typedefs -g")
 file(GLOB MARKDOWN *.md)
 file(GLOB SRC *.cpp *.hpp)
+add_subdirectory(basic)
 find_package( Boost REQUIRED COMPONENTS program_options )
 include_directories( ${Boost_INCLUDE_DIRS} )
 add_executable(logs-grammar ${SRC} ${MARKDOWN})

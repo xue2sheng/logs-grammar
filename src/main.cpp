@@ -1,7 +1,9 @@
-#include "boost/program_options.hpp"
-
 #include <iostream>
 #include <string>
+#include <dlfcn.h>
+
+#include "boost/program_options.hpp"
+#include "basic/basic.hpp"
 
 namespace
 {
@@ -15,6 +17,8 @@ int main(int argc, char** argv)
 {
     try
     {
+	dlerror();
+
         /** Define and parse the program options
          */
         namespace po = boost::program_options;
@@ -50,7 +54,7 @@ int main(int argc, char** argv)
         }
         
         // application code here //
-        std::cout << "Hello World!" << std::endl;
+        std::cout << "Hello World! library_extension=" << LIB_EXT << std::endl;
         
     }
     catch(std::exception& e)
