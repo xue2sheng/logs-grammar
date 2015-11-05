@@ -10,6 +10,7 @@ namespace
     const size_t ERROR_IN_COMMAND_LINE = 1;
     const size_t SUCCESS = 0;
     const size_t ERROR_UNHANDLED_EXCEPTION = 2;
+    const size_t ERROR_DYNAMIC_LIBRARY = 3;
     
 } // namespace
 
@@ -17,34 +18,34 @@ int main(int argc, char** argv)
 {
     try
     {
-	dlerror();
-
-        /** Define and parse the program options
-         */
+        // Define and parse the program options
         namespace po = boost::program_options;
         po::options_description desc("Options");
         desc.add_options()
         ("help", "Print help messages")
-        ("add", "additional options")
-        ("like", "this");
+        ("plugin_path", "where libraries are located")
+        ("plugin_name", "name of the plugin to be loaded");
+      
+        std::string plugin_path = "/Users/user/Code/logs-grammar/build/src/basic/Debug/";
+        std::string plugin_name = "basic";
+        
+        // command line arguments
         
         po::variables_map vm;
         try
         {
-            po::store(po::parse_command_line(argc, argv, desc),
-                      vm); // can throw
+            po::store(po::parse_command_line(argc, argv, desc), vm); // can throw
             
-            /** --help option
-             */
-            if ( vm.count("help")  )
+            // --help option
+            if ( vm.count("help") )
             {
                 std::cout << "Basic Command Line Parameter App" << std::endl
                 << desc << std::endl;
                 return SUCCESS;
             }
             
-            po::notify(vm); // throws on error, so do after help in case
-            // there are any problems
+            // throws on error, so do after help in case there are any problems
+            po::notify(vm);
         }
         catch(po::error& e)
         {
@@ -53,17 +54,52 @@ int main(int argc, char** argv)
             return ERROR_IN_COMMAND_LINE;
         }
         
-        // application code here //
-        std::cout << "Hello World! library_extension=" << LIB_EXT << std::endl;
+        // application code here
         
+        // load basic library
+        std::string plugin = plugin_path + LIB_PRE + plugin_name + LIB_EXT;
+        void* basic = dlopen(plugin.c_str(), RTLD_LAZY);
+        if (!basic) {
+            std::cerr << "Cannot load library: " << dlerror() << '\n';
+            return ERROR_DYNAMIC_LIBRARY;
+        }
+        
+        // reset errors
+        dlerror();
+        
+        // load the symbols
+        create_t* create_plugin = (create_t*) dlsym(basic, "create");
+        const char* dlsym_error = dlerror();
+        if (dlsym_error) {
+            std::cerr << "Cannot load symbol create: " << dlsym_error << '\n';
+            return ERROR_DYNAMIC_LIBRARY;
+        }
+        
+        destroy_t* destroy_plugin = (destroy_t*) dlsym(basic, "destroy");
+        dlsym_error = dlerror();
+        if (dlsym_error) {
+            std::cerr << "Cannot load symbol destroy: " << dlsym_error << '\n';
+            return ERROR_DYNAMIC_LIBRARY;
+        }
+        
+        // create an instance of the class
+ //       basic* instance = create_plugin();
+        
+        // use the class
+   //     std::cout << "The id is: " << instance->id() << '\n';
+        
+        // destroy the class
+    //    destroy_plugin(instance);
+        
+        // unload the triangle library
+     //   dlclose(instance);
     }
     catch(std::exception& e)
     {
         std::cerr << "Unhandled Exception reached the top of main: "
         << e.what() << ", application will now exit" << std::endl; 
         return ERROR_UNHANDLED_EXCEPTION; 
-        
-    } 
+    }
     
     return SUCCESS; 
     
