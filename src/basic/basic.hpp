@@ -7,7 +7,7 @@ class basic {
 public:
 	basic() {}
 	virtual ~basic() {}
-    std::string id() const;
+    std::string id();
 };
 
 typedef basic* create_t();

@@ -1,6 +1,6 @@
 #include "basic.hpp"
 
-std::string basic::id() const
+std::string basic::id()
 {
     return "basic_library";
 }

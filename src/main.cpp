@@ -58,7 +58,7 @@ int main(int argc, char** argv)
         
         // load basic library
         std::string plugin = plugin_path + DIR_SEP + LIB_PRE + plugin_name + LIB_EXT;
-        void* library = dlopen(plugin.c_str(), RTLD_LAZY);
+        void* library = dlopen(plugin.c_str(), RTLD_NOW);
         if (!library) {
             std::cerr << "Cannot load library: " << dlerror() << '\n';
             return ERROR_DYNAMIC_LIBRARY;
@@ -91,8 +91,8 @@ int main(int argc, char** argv)
         // destroy the class
         destroy_plugin(instance);
         
-        // unload the triangle library
-        dlclose(instance);
+        // unload the library
+        dlclose(library);
     }
     catch(std::exception& e)
     {
