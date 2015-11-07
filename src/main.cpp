@@ -86,7 +86,7 @@ int main(int argc, char** argv)
         basic* instance = create_plugin();
         
         // use the class
-        std::cout << "The id is: " << instance->id() << '\n';
+        //std::cout << "The id is: " << instance->id() << '\n';
         
         // destroy the class
         destroy_plugin(instance);

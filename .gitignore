@@ -2,6 +2,7 @@
 ~*
 *.swp
 build/
+build*/
 bin/
 .DS_Store
 nbproject/
