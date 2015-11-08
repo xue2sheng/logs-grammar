@@ -100,6 +100,27 @@ By default we will use **gcc** C++ compiler. So install **cmake** and **boost** 
 
 **NOTE**: if you happen to work with **NetBeans** as **IDE**, remember import the code as a **cmake** project.
 
+If your default compiler is too old, i.e. 4.8.x, you can instal a newer one. For example on a **CentOS** system provided you got *devtoolset-3*, the follow instructions:
+
+       sudo yum install -y devtoolset-3-gcc 
+       sudo yum install -y devtoolset-3-gcc-c++
+
+But it might make more sense just compile from sources, similar as for [Cross Compilation](http://www.cis.upenn.edu/~milom/cross-compile.html). Don't forget to meet its [prerequirements](https://gcc.gnu.org/wiki/InstallingGCC)
+
+       cd <working directory>
+       wget http://ftp.gnu.org/gnu/gcc/gcc-5.2.0/gcc-5.2.0.tar.gz
+       tar -xvzf gcc-5.2.0.tar.gz
+       cd gcc-5.2.0
+       ./contrib/download_prerequisites
+       cd ..
+       mkdir objdir
+       cd objdir
+       sudo mkdir /opt/gcc
+       ./gcc-5.2.0/configure --prefix=/opt/gcc --disable-multilib --enable-languages=c,c++
+       make all
+       sudo make install
+
+
 ### Solaris
 
 By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. [OpenCSW](https://www.opencsw.org) **pkgutil** against *unstable* mirror, for that compiler. Then the following commands:
