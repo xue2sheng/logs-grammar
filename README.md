@@ -88,6 +88,37 @@ But if you prefer **gcc**, just install the latest compiler version, [build boos
 
 **NOTE:** if **boost library** wasn't built with extra care for **C++11**, it might come up the annoying warning *deprecrate-declartions* due to obsolete **auto_ptr**.
 
+If you want to cross-compile for **Solaris**:
+
+        ../gcc-5.2.0/configure --target=$TARGET --prefix=$PREFIX --with-sysroot=$SYSROOT --with-gnu-as --with-gnu-ld --disable-libffi --disable-libgcj --disable-zlib --disable-libjava --disable-libcilkrts --disable-libsanitizer --disable-libvtv --disable-libmpx --disable-gnattools --disable-libada --disable-libgfortran --disable-libobjc --disable-liboffloadmic --disable-boehm-gc --enable-languages=c,c++ -v
+
+Libraries have been installed in:
+
+         /opt/cross/sparc-sun-solaris2.10/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
+
+
+           /opt/cross/bin/sparc-sun-solaris2.10-gcc -Wl,-rpath -Wl,/opt/cross/sparc-sun-solaris2.10/lib main.c -o hello
+
+
+[ctp-1-sevilan-ppin:tecnomen] /tmp> ./hello 
+Hello World!
+[ctp-1-sevilan-ppin:tecnomen] /tmp> ldd ./hello 
+        libc.so.1 =>     /usr/lib/libc.so.1
+        libm.so.2 =>     /usr/lib/libm.so.2
+        /lib/libm/libm_hwcap1.so.2
+        /platform/sun4v/lib/libc_psr.so.1
+
+
 ### Linux
 
 By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. **apt-get** or **yum**, for that compiler. Then the usual *cmake* commands:
@@ -116,10 +147,9 @@ But it might make more sense just compile from sources, similar as for [Cross Co
        mkdir objdir
        cd objdir
        sudo mkdir /opt/gcc
-       ./gcc-5.2.0/configure --prefix=/opt/gcc --disable-multilib --enable-languages=c,c++
+       ./gcc-5.2.0/configure --prefix=/opt/gcc --disable-multilib --disable-libffi --enable-languages=c,c++ -v
        make all
        sudo make install
-
 
 ### Solaris
 
