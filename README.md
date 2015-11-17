@@ -110,13 +110,16 @@ flag during linking and do at least one of the following:
            /opt/cross/bin/sparc-sun-solaris2.10-gcc -Wl,-rpath -Wl,/opt/cross/sparc-sun-solaris2.10/lib main.c -o hello
 
 
-[ctp-1-sevilan-ppin:tecnomen] /tmp> ./hello 
-Hello World!
-[ctp-1-sevilan-ppin:tecnomen] /tmp> ldd ./hello 
-        libc.so.1 =>     /usr/lib/libc.so.1
-        libm.so.2 =>     /usr/lib/libm.so.2
-        /lib/libm/libm_hwcap1.so.2
-        /platform/sun4v/lib/libc_psr.so.1
+           [ctp-1-sevilan-ppin:tecnomen] /tmp> ./hello 
+           Hello World!
+           [ctp-1-sevilan-ppin:tecnomen] /tmp> ldd ./hello 
+           libc.so.1 =>     /usr/lib/libc.so.1
+           libm.so.2 =>     /usr/lib/libm.so.2
+           /lib/libm/libm_hwcap1.so.2
+           /platform/sun4v/lib/libc_psr.so.1
+
+As well, you can try to **cross-compile** *boost* libraries themselves to be used at **Solaris**:
+
 
 
 ### Linux
