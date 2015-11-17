@@ -118,9 +118,20 @@ flag during linking and do at least one of the following:
            /lib/libm/libm_hwcap1.so.2
            /platform/sun4v/lib/libc_psr.so.1
 
-As well, you can try to **cross-compile** *boost* libraries themselves to be used at **Solaris**:
+As well, you can try to [**cross-compile**](http://www.boost.org/build/doc/html/bbv2/tasks/crosscompile.html) *boost* libraries themselves to be used at **Solaris**:
 
+          ./bootstrap.sh --with-libraries=all --with-toolset=gcc --prefix=/opt/cross/boost
+          ./b2 toolset=gcc target-os=solaris address-model=64 instruction-set=ultrasparc
+          sudo ./b2 toolset=gcc target-os=solaris address-model=64 instruction-set=ultrasparc install 
+          
+**NOTE:** Don't forget to properly configure your **user-config.jam** at your *$HOME* directory:
 
+          # ------------------
+          # GCC configuration.
+          # ------------------
+          # Configure gcc (default version).
+          using gcc : sun : sparc-sun-solaris2.10-gcc : <compileflags>-D_XPG6 <linkflags>-D_XPG6 ;
+          
 
 ### Linux
 
