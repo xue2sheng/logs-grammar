@@ -197,7 +197,6 @@ If you want to **CROSS COMPILE** on Linux for different targets, i.e. Solaris or
                 
 **NOTE**: *gcc* folder stored your cross-compiler, i.e. **binutils**, **gcc**, ..., built using **SYSROOT** libraries [copied from your target machine](http://www.cis.upenn.edu/~milom/cross-compile.html):
 
-        ### Cross compilation
         export TARGET=sparc-sun-solaris2.10
         export PREFIX=/opt/cross/Solaris/gcc
         export SYSROOT=/opt/cross/Solaris/SYSROOT
@@ -253,7 +252,8 @@ Now check it out with typical C++11/14 program and compile it statically:
 
 **NOTE**: *-static-libstdc++* flag is very important in order to include statically **libstdc++.a** in your binary:
 
-        /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ -print-file-name=libstdc++.a/opt/cross/Solaris/gcc/lib/gcc/sparc-sun-solaris2.10/5.3.0/../../../../sparc-sun-solaris2.10/lib/libstdc++.a
+        /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ -print-file-name=libstdc++.a
+        /opt/cross/Solaris/gcc/lib/gcc/sparc-sun-solaris2.10/5.3.0/../../../../sparc-sun-solaris2.10/lib/libstdc++.a
         
 Once you got cross-compile your C++14 binarie statically on your Linux box, you can execute it on your target, i.e. Solaris:
 
@@ -270,6 +270,9 @@ Once you got cross-compile your C++14 binarie statically on your Linux box, you 
         ./crosscompiled_for_Solaris 
         main thread
         thread function
+
+Adding *cross-compiled* **boost** libraries is similar to **OSX**:
+
 
 ### Solaris
 
