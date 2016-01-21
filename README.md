@@ -165,6 +165,112 @@ But it might make more sense just compile from sources, similar as for [Cross Co
        make all
        sudo make install
 
+If you want to **CROSS COMPILE** on Linux for different targets, i.e. Solaris or ARM64, try to store target SYSROOT libraries and cross-compilers in a "logic" way for you. For example:
+
+    /opt/cross
+    └── Solaris
+        ├── gcc
+        │   ├── bin
+        │   ├── include
+        │   ├── lib
+        │   ├── libexec
+        │   ├── share
+        │   └── sparc-sun-solaris2.10
+        └── SYSROOT
+            ├── lib
+            │   ├── 32 -> .
+            │   ├── 64 -> sparcv9
+            │   ├── cpu
+            │   ├── libm
+            │   ├── mpxio
+            │   ├── secure
+            │   ├── sparcv9
+            │   └── svc
+            └── usr
+                ├── dt
+                ├── include
+                ├── lib
+                ├── local
+                ├── openwin
+                ├── usr
+                └── X11
+                
+**NOTE**: *gcc* folder stored your cross-compiler, i.e. **binutils**, **gcc**, ..., built using **SYSROOT** libraries [copied from your target machine](http://www.cis.upenn.edu/~milom/cross-compile.html):
+
+        ### Cross compilation
+        export TARGET=sparc-sun-solaris2.10
+        export PREFIX=/opt/cross/Solaris/gcc
+        export SYSROOT=/opt/cross/Solaris/SYSROOT
+
+        cd $SYSROOT
+        ssh user@solaris "tar -cf - /usr/include" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/local/include" | tar -xvf -
+        ssh user@solaris "tar -cf - /lib" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/lib" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/local/lib" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/openwin/include" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/dt/include" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/X11/include" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/openwin/lib" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/dt/lib" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/X11/lib" | tar -xvf -
+
+[Download & compile **binutils** and **gcc**](http://www.cis.upenn.edu/~milom/cross-compile.html) in some building directories:
+
+        cd <<building directory for binutils>>
+        ../binutils-2.25/configure --target=$TARGET --prefix=$PREFIX --with-sysroot=$SYSROOT -v
+        make all
+        sudo make install
+        
+        cd <<building directory for gcc>>
+        ../gcc_5_3_0_release/configure --target=$TARGET --prefix=$PREFIX --with-sysroot=$SYSROOT --with-gnu-as \ 
+        --with-gnu-ld --disable-libffi --disable-libgcj --disable-zlib --disable-libjava --disable-libcilkrts \
+        --disable-libsanitizer --disable-libvtv --disable-libmpx --disable-gnattools --disable-libada \
+        --disable-libgfortran --disable-libobjc --disable-liboffloadmic --disable-boehm-gc --enable-languages=c,c++ -v
+        make all
+        sudo make install
+        
+Now check it out with typical C++11/14 program and compile it statically:    
+
+        #include <iostream>
+        #include <thread>
+        void thread_function()
+        {
+            std::cout << "thread function\n";
+        }
+        int main()
+        {
+            std::thread t(&thread_function);   // t starts running
+            std::cout << "main thread\n";
+            t.join();   // main thread waits for the thread t to finish
+            return 0;
+        }
+
+
+        /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ -std=c++14 \
+        -Wl,-rpath -Wl,/opt/cross/Solaris/gcc/sparc-sun-solaris2.10/lib main.cpp \
+        -static-libstdc++ -static-libgcc -o crosscompiled_for_Solaris
+
+**NOTE**: *-static-libstdc++* flag is very important in order to include statically **libstdc++.a** in your binary:
+
+        /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ -print-file-name=libstdc++.a/opt/cross/Solaris/gcc/lib/gcc/sparc-sun-solaris2.10/5.3.0/../../../../sparc-sun-solaris2.10/lib/libstdc++.a
+        
+Once you got cross-compile your C++14 binarie statically on your Linux box, you can execute it on your target, i.e. Solaris:
+
+        ldd crosscompiled_for_Solaris 
+        libm.so.2 =>     /usr/lib/libm.so.2
+        librt.so.1 =>    /usr/lib/librt.so.1
+        libc.so.1 =>     /usr/lib/libc.so.1
+        libaio.so.1 =>   /usr/lib/libaio.so.1
+        libmd.so.1 =>    /usr/lib/libmd.so.1
+        /lib/libm/libm_hwcap1.so.2
+        /platform/sun4v/lib/libc_psr.so.1
+        /platform/sun4v/lib/libmd_psr.so.1
+        
+        ./crosscompiled_for_Solaris 
+        main thread
+        thread function
+
 ### Solaris
 
 By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. [OpenCSW](https://www.opencsw.org) **pkgutil** against *unstable* mirror, for that compiler. Then the following commands:
