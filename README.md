@@ -271,9 +271,60 @@ Once you got cross-compile your C++14 binarie statically on your Linux box, you 
         main thread
         thread function
 
-Adding *cross-compiled* **boost** libraries is similar to **OSX**:
+Adding [**cross-compile**](http://www.boost.org/build/doc/html/bbv2/tasks/crosscompile.html) *boost* libraries themselves to be used at **Solaris** is equivalent to **OSX** case:
+
+          ./bootstrap.sh --with-libraries=all --with-toolset=gcc --prefix=/opt/cross/Solaris/gcc/boost
+          ./b2 toolset=gcc target-os=solaris address-model=64 instruction-set=ultrasparc
+          sudo ./b2 toolset=gcc target-os=solaris address-model=64 instruction-set=ultrasparc install 
+          
+**NOTE:** Don't forget to properly configure your **user-config.jam** at your *$HOME* directory:
+
+          # ------------------
+          # GCC configuration.
+          # ------------------
+          # Configure gcc (default version).
+          using gcc : 5.3.0 : /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ : <compileflags>-D_XPG6 <linkflags>-D_XPG6 ;
 
 
+This way *cross-compiled* Solaris **boost** libraries will be placed:
+
+        /opt/cross
+        └── Solaris
+            ├── gcc
+            │   ├── bin
+                ├── boost
+                │   ├── include
+                │   │   └── boost
+                │   └── lib
+
+Check **boost** librerias out with one elementary example:
+
+        #include <boost/locale.hpp>
+        #include <iostream>
+        #include <ctime>
+        int main()
+        {
+            using namespace boost::locale;
+            using namespace std;
+            generator gen;
+            locale loc=gen(""); 
+            // Create system default locale
+            locale::global(loc); 
+            // Make it system global
+            cout.imbue(loc);
+            // Set as default locale for output
+            cout <<format("Today {1,date} at {1,time} we had run our first localization example") % time(0) <<endl;
+            cout<<"This is how we show numbers in this locale "<<as::number << 103.34 <<endl; 
+            cout<<"This is how we show currency in this locale "<<as::currency << 103.34 <<endl; 
+            cout<<"This is typical date in the locale "<<as::date << std::time(0) <<endl;
+            cout<<"This is typical time in the locale "<<as::time << std::time(0) <<endl;
+            cout<<"This is upper case "<<to_upper("Hello World!")<<endl;
+            cout<<"This is lower case "<<to_lower("Hello World!")<<endl;
+            cout<<"This is title case "<<to_title("Hello World!")<<endl;
+            cout<<"This is fold case "<<fold_case("Hello World!")<<endl;
+        }
+
+        
 ### Solaris
 
 By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. [OpenCSW](https://www.opencsw.org) **pkgutil** against *unstable* mirror, for that compiler. Then the following commands:
