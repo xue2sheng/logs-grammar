@@ -283,7 +283,7 @@ Adding [**cross-compile**](http://www.boost.org/build/doc/html/bbv2/tasks/crossc
           # GCC configuration.
           # ------------------
           # Configure gcc (default version).
-          using gcc : 5.3.0 : /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ : <compileflags>-D_XPG6 <linkflags>-D_XPG6 ;
+          using gcc : sun : /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ : <compileflags>-D_XPG6 <linkflags>-D_XPG6 ;
 
 
 This way *cross-compiled* Solaris **boost** libraries will be placed:
@@ -324,7 +324,10 @@ Check **boost** librerias out with one elementary example:
             cout<<"This is fold case "<<fold_case("Hello World!")<<endl;
         }
 
-        
+Try to compile and link statically all non-pure header libraries:
+
+/opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ -std=c++14 -I /opt/cross/Solaris/gcc/boost/include  -Wno-deprecated-declarations -Wl,-rpath -Wl,/opt/cross/Solaris/gcc/sparc-sun-solaris2.10/lib:/opt/cross/Solaris/gcc/boost/lib main.cpp -static-libstdc++ -static-libgcc -o boost_for_Solaris
+
 ### Solaris
 
 By default we will use **gcc** C++ compiler. So install **cmake** and **boost** libraries in a way suits you best, i.e. [OpenCSW](https://www.opencsw.org) **pkgutil** against *unstable* mirror, for that compiler. Then the following commands:
