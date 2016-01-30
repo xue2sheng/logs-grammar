@@ -2,6 +2,7 @@
 #include <string>
 #include <dlfcn.h>
 
+#include "gsl.h"
 #include "boost/program_options.hpp"
 #include "basic/basic.hpp"
 
