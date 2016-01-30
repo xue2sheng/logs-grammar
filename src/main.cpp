@@ -58,6 +58,7 @@ int main(int argc, char** argv)
         // application code here
         
         // load basic library
+        Expects( !plugin_path.empty() && !plugin_name.empty() );
         std::string plugin = plugin_path + DIR_SEP + LIB_PRE + plugin_name + LIB_EXT;
         void* library = dlopen(plugin.c_str(), RTLD_NOW);
         if (!library) {
@@ -85,6 +86,7 @@ int main(int argc, char** argv)
         
         // create an instance of the class
         basic* instance = create_plugin();
+        Ensures(instance);
         
         // use the class
         //std::cout << "The id is: " << instance->id() << '\n';
