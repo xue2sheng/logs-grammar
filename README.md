@@ -213,6 +213,7 @@ If you want to **CROSS COMPILE** on Linux for different targets, i.e. Solaris or
         ssh user@solaris "tar -cf - /usr/openwin/lib" | tar -xvf -
         ssh user@solaris "tar -cf - /usr/dt/lib" | tar -xvf -
         ssh user@solaris "tar -cf - /usr/X11/lib" | tar -xvf -
+        ssh user@solaris "tar -cf - /usr/sfw" | tar -xvf -
 
 [Download & compile **binutils** and **gcc**](http://www.cis.upenn.edu/~milom/cross-compile.html) in some building directories:
 
@@ -274,7 +275,6 @@ Once you got cross-compile your C++14 binarie statically on your Linux box, you 
 Adding [**cross-compile**](http://www.boost.org/build/doc/html/bbv2/tasks/crosscompile.html) *boost* libraries themselves to be used at **Solaris** is equivalent to **OSX** case:
 
           ./bootstrap.sh --with-libraries=all --with-toolset=gcc --prefix=/opt/cross/Solaris/gcc/boost
-          ./b2 toolset=gcc target-os=solaris address-model=64 instruction-set=ultrasparc
           sudo ./b2 toolset=gcc target-os=solaris address-model=64 instruction-set=ultrasparc install 
           
 **NOTE:** Don't forget to properly configure your **user-config.jam** at your *$HOME* directory:
