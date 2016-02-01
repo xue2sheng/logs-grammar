@@ -299,34 +299,18 @@ This way *cross-compiled* Solaris **boost** libraries will be placed:
 
 Check **boost** librerias out with one elementary example:
 
-        #include <boost/locale.hpp>
         #include <iostream>
-        #include <ctime>
+        #include <boost/filesystem.hpp>
         int main()
         {
-            using namespace boost::locale;
-            using namespace std;
-            generator gen;
-            locale loc=gen(""); 
-            // Create system default locale
-            locale::global(loc); 
-            // Make it system global
-            cout.imbue(loc);
-            // Set as default locale for output
-            cout <<format("Today {1,date} at {1,time} we had run our first localization example") % time(0) <<endl;
-            cout<<"This is how we show numbers in this locale "<<as::number << 103.34 <<endl; 
-            cout<<"This is how we show currency in this locale "<<as::currency << 103.34 <<endl; 
-            cout<<"This is typical date in the locale "<<as::date << std::time(0) <<endl;
-            cout<<"This is typical time in the locale "<<as::time << std::time(0) <<endl;
-            cout<<"This is upper case "<<to_upper("Hello World!")<<endl;
-            cout<<"This is lower case "<<to_lower("Hello World!")<<endl;
-            cout<<"This is title case "<<to_title("Hello World!")<<endl;
-            cout<<"This is fold case "<<fold_case("Hello World!")<<endl;
+            boost::filesystem::path pathname = "/usr/local/bin";
+            std::cout << pathname.string() << std::endl;
+            return 0;
         }
 
 Try to compile and link statically all non-pure header libraries:
 
-/opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ -std=c++14 -I /opt/cross/Solaris/gcc/boost/include  -Wno-deprecated-declarations -Wl,-rpath -Wl,/opt/cross/Solaris/gcc/sparc-sun-solaris2.10/lib:/opt/cross/Solaris/gcc/boost/lib main.cpp -static-libstdc++ -static-libgcc -o boost_for_Solaris
+        /opt/cross/Solaris/gcc/bin/sparc-sun-solaris2.10-g++ -std=c++14 -I/opt/cross/Solaris/gcc/boost/include -L/opt/cross/Solaris/gcc/boost/lib -Wno-deprecated-declarations -Wl,-rpath -Wl,/opt/cross/Solaris/gcc/sparc-sun-solaris2.10/lib:/opt/cross/Solaris/gcc/boost/lib -Wl,-rpath-link -Wl,/opt/cross/Solaris/gcc/sparc-sun-solaris2.10/lib:/opt/cross/Solaris/gcc/boost/lib -static-libstdc++ -static-libgcc -Wl,-Bstatic -lboost_filesystem -lboost_system -Wl,-Bdynamic -lm -lrt -lc main.cpp -o boost_for_Solaris
 
 ### Solaris
 
