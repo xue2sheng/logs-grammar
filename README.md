@@ -163,7 +163,7 @@ Another trick is to compile with the option **--with-default-libstdcxx-abi=gcc4-
        mkdir objdir
        cd objdir
        sudo mkdir /opt/gcc
-       ./gcc-5.2.0/configure --prefix=/opt/gcc --disable-multilib --disable-libffi --enable-languages=c,c++ -v
+       ../gcc-5.2.0/configure --prefix=/opt/gcc --disable-multilib --disable-libffi --enable-languages=c,c++ -v
        make all
        sudo make install
 
