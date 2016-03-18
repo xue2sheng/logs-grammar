@@ -152,6 +152,8 @@ If your default compiler is too old, i.e. 4.8.x, you can instal a newer one. For
 
 But it might make more sense just compile from sources, similar as for [Cross Compilation](http://www.cis.upenn.edu/~milom/cross-compile.html). Don't forget to meet its [prerequirements](https://gcc.gnu.org/wiki/InstallingGCC)
 
+Another trick is to compile with the option **--with-default-libstdcxx-abi=gcc4-compatible** as explained at [Build GCC5 on RHEL6](http://en.librehat.com/blog/build-gcc-5-dot-2-on-rhel-6/)
+
        cd <working directory>
        wget http://ftp.gnu.org/gnu/gcc/gcc-5.2.0/gcc-5.2.0.tar.gz
        tar -xvzf gcc-5.2.0.tar.gz
