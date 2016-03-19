@@ -167,6 +167,10 @@ Another trick is to compile with the option **--with-default-libstdcxx-abi=gcc4-
        make all
        sudo make install
 
+**NOTE**: For RedHat 7, maybe it makes sense to use the following configuration:
+
+       ../gcc-5.3.0/configure --prefix=/opt/gcc --disable-multilib --disable-libffi --enable-languages=c,c++ --disable-libunwind-exception --disable-libada --host x86_64-redhat-linux-gnu --build x86_64-redhat-linux-gnu --with-default-libstdcxx-abi=gcc4-compatible -v
+       
 If you want to **CROSS COMPILE** on Linux for different targets, i.e. Solaris or ARM64, try to store target SYSROOT libraries and cross-compilers in a "logic" way for you. For example:
 
     /opt/cross
