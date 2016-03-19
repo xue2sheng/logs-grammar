@@ -171,6 +171,8 @@ Another trick is to compile with the option **--with-default-libstdcxx-abi=gcc4-
 
        ../gcc-5.3.0/configure --prefix=/opt/gcc --disable-multilib --disable-libffi --enable-languages=c,c++ --disable-libunwind-exception --disable-libada --host x86_64-redhat-linux-gnu --build x86_64-redhat-linux-gnu --with-default-libstdcxx-abi=gcc4-compatible -v
        
+       using gcc : 5.3 : /opt/gcc/bin/g++ : <compileflags>-std=c++14 -m64 -D_XPG6 -static -static-libstdc++ -static-libgcc <linkflags>-std=c++14 -m64 -D_XPG6 -static -static-libstdc++ -static-libgcc ;
+       
 If you want to **CROSS COMPILE** on Linux for different targets, i.e. Solaris or ARM64, try to store target SYSROOT libraries and cross-compilers in a "logic" way for you. For example:
 
     /opt/cross
