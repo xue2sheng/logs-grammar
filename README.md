@@ -173,6 +173,16 @@ Another trick is to compile with the option **--with-default-libstdcxx-abi=gcc4-
        
        using gcc : 5.3 : /opt/gcc/bin/g++ : <compileflags>-std=c++14 -m64 -D_XPG6 -static -static-libstdc++ -static-libgcc <linkflags>-std=c++14 -m64 -D_XPG6 -static -static-libstdc++ -static-libgcc ;
        
+**NOTE:**: Don't forget to compile a **clang** version of *boost* libraries if you plan to use *llvm* tools instead:
+
+        ./bootstrap.sh --with-libraries=all --with-toolset=clang --prefix=/opt/clang/boost
+        
+        using clang : 3.8 : /opt/clang/bin/clang++ : <compileflags>-std=c++14 -m64 -static -stdlib=libc++ -I /opt/clang/include<linkflags>-std=c++14 -m64 -static -stdlib=libc++ -lc++abi -L/opt/clang/lib ;
+
+       ./b2 toolset=clang architecture=x86 address-model=64  cxxflags="-std=c++14 -m64 -static -stdlib=libc++ -I/opt/clang/include" linkflags="-std=c++14 -m64 -static -stdlib=libc++ -lc++abi -L/opt/clang/lib"
+
+
+       
 If you want to **CROSS COMPILE** on Linux for different targets, i.e. Solaris or ARM64, try to store target SYSROOT libraries and cross-compilers in a "logic" way for you. For example:
 
     /opt/cross
