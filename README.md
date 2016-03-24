@@ -175,6 +175,8 @@ Another trick is to compile with the option **--with-default-libstdcxx-abi=gcc4-
        
 **NOTE:**: Don't forget to compile a **clang** version of *boost* libraries if you plan to use *llvm* tools instead:
 
+        cmake -DCMAKE_C_COMPILER=/opt/gcc/bin/gcc -DCMAKE_CXX_COMPILER=/opt/gcc/bin/g++ -DGCC_INSTALL_PREFIX=/opt/gcc -DCMAKE_CXX_LINK_FLAGS="-L/opt/gcc/lib64 -Wl,-rpath,/opt/gcc/lib64 -Wl,-rpath-link,/opt/gcc/lib64 -static-libstdc++ -static-libgcc" -DCMAKE_INSTALL_PREFIX=/opt/clang -DLLVM_ENABLE_ASSERTIONS=ON -DCMAKE_BUILD_TYPE="Release" -DLLVM_TARGETS_TO_BUILD="X86" ../llvm
+
         ./bootstrap.sh --with-libraries=all --with-toolset=clang --prefix=/opt/clang/boost
         
         using clang : 3.8 : /opt/clang/bin/clang++ : <compileflags>-std=c++14 -m64 -static -stdlib=libc++ -I /opt/clang/include<linkflags>-std=c++14 -m64 -static -stdlib=libc++ -lc++abi -L/opt/clang/lib ;
